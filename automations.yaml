@@ -1,0 +1,13 @@
+
+- alias: Update Groups
+  mode: queued
+  trigger:
+    - platform: homeassistant
+      event: start
+    - platform: event
+      event_type: entity_registry_updated
+  action:
+    - service: python_script.remove_all_groups
+    - service: python_script.set_all_thermostats_group
+    - service: python_script.set_all_thermostat_schedules_group
+    - service: python_script.set_thermostat_schedules_group_per_all_thermostats

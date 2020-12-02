@@ -1,12 +1,14 @@
 
-for thermostat_entity_id in hass.states.entity_ids("climate") :
+for thermostat_ in hass.states.all("climate") :
 	hass.services.call("group", "set", {
-		"object_id": thermostat_entity_id.split(".")[1] + "_schedules",
-		"name": "[" + hass.states.get(thermostat_entity_id).name + " Schedules]",
+		"object_id": thermostat_.object_id + "_schedules",
+		"name": "[" + thermostat_.name + " Schedules]",
 		"entities": [
-			s.entity_id for s in hass.states.all("switch")
-				if (s.entity_id.startswith("switch.schedule_")
-					and len(s.entity_id) == 22
-					and len([a for a in s.attributes["actions"] if a["service"] == "set_temperature" and a["entity"] == thermostat_entity_id]) > 0)
+			switch_.entity_id for switch_ in hass.states.all("switch")
+				if (switch_.entity_id.startswith("switch.schedule_")
+					and len(switch_.entity_id) == 22
+					and len([switch_action_ for switch_action_ in switch_.attributes["actions"]
+						if switch_action_["service"] == "set_temperature"
+							and switch_action_["entity"] == thermostat_.entity_id]) > 0)
 		]
 	})

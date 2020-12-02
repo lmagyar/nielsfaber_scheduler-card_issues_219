@@ -1,6 +1,6 @@
 
-for s in hass.states.all("group") :
-	if s.name.startswith("[") and s.name.endswith("]") :
+for group_ in hass.states.all("group") :
+	if group_.name.startswith("[") and group_.name.endswith("]") :
 		hass.services.call("group", "remove", {
-			"object_id": s.object_id
+			"object_id": group_.object_id
 		})

@@ -8,7 +8,7 @@ for thermostat_ in hass.states.all("climate") :
 				if (switch_.entity_id.startswith("switch.schedule_")
 					and len(switch_.entity_id) == 22
 					and len([switch_action_ for switch_action_ in switch_.attributes["actions"]
-						if switch_action_["service"] == "set_temperature"
-							and switch_action_["entity"] == thermostat_.entity_id]) > 0)
+						if switch_action_["service"] == "climate.set_temperature"
+							and switch_action_["entity_id"] == thermostat_.entity_id]) > 0)
 		]
 	})
